@@ -75,7 +75,7 @@ public class GridSettings {
      * Determines how many cells will be added to the scene per frame.
      * Adding too many cells per-frame may cause "stutter" because there is so much data being pushed to the
      * graphics card in such a short amount of time.
-     * @param additionsPerFrame
+     * @param additionsPerFrame the amount of cells to add per frame.
      */
     public void setAdditionsPerFrame(int additionsPerFrame) {
         this.additionsPerFrame = additionsPerFrame;
