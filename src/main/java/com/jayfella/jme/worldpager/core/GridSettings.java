@@ -5,6 +5,8 @@ package com.jayfella.jme.worldpager.core;
  */
 public class GridSettings {
 
+    private GridSettingsListener listener;
+
     private int viewDistance = 5;
     private CellSize cellSize = CellSize.Size_16;
     private int additionsPerFrame = 1;
@@ -21,7 +23,17 @@ public class GridSettings {
      * @param viewDistance the amount of cells that will be drawn in each cardinal direction.
      */
     public void setViewDistance(int viewDistance) {
-        this.viewDistance = viewDistance;
+
+        if (listener != null) {
+            int oldValue = this.viewDistance;
+            this.viewDistance = viewDistance;
+
+            listener.viewDistanceChanged(oldValue, viewDistance);
+        }
+        else {
+            this.viewDistance = viewDistance;
+        }
+
     }
 
     /**
@@ -37,7 +49,18 @@ public class GridSettings {
      * @param cellSize the size of the grid cell.
      */
     public void setCellSize(CellSize cellSize) {
-        this.cellSize = cellSize;
+
+        if (listener != null) {
+            CellSize oldValue = this.cellSize;
+            this.cellSize = cellSize;
+
+            listener.cellSizeChanged(oldValue, cellSize);
+        }
+        else {
+            this.cellSize = cellSize;
+        }
+
+
     }
 
     /**
@@ -76,4 +99,11 @@ public class GridSettings {
         this.removalsPerFrame = removalsPerFrame;
     }
 
+    public GridSettingsListener getListener() {
+        return listener;
+    }
+
+    public void setListener(GridSettingsListener listener) {
+        this.listener = listener;
+    }
 }
