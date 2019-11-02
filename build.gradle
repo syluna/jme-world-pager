@@ -16,7 +16,7 @@ repositories {
 }
 
 project.ext {
-    jmeVer = "[3.3,)"
+    jmeVer = "3.3.0-alpha5"
 }
 
 dependencies {
