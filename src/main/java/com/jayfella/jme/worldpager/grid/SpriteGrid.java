@@ -32,6 +32,10 @@ public class SpriteGrid extends SceneGrid implements PlottedGrid {
         setName("Sprite Grid");
     }
 
+    public Material getMaterial() {
+        return material;
+    }
+
     public void setMaterial(Material material) {
         this.material = material;
     }
