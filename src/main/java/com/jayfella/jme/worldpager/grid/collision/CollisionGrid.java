@@ -2,6 +2,7 @@ package com.jayfella.jme.worldpager.grid.collision;
 
 import com.jayfella.jme.worldpager.core.CellSize;
 import com.jayfella.jme.worldpager.core.GridPos2i;
+import com.jayfella.jme.worldpager.world.World;
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.bullet.PhysicsSpace;
@@ -24,7 +25,8 @@ public abstract class CollisionGrid extends BaseAppState {
 
     // private static final Logger log = LoggerFactory.getLogger(CollisionGrid.class);
 
-    private final Application app;
+    // private final Application app;
+    private final World world;
     private final PhysicsSpace physicsSpace;
 
     private CellSize cellSize;
@@ -39,9 +41,9 @@ public abstract class CollisionGrid extends BaseAppState {
 
     private String name;
 
-    public CollisionGrid(Application app, PhysicsSpace physicsSpace, CellSize cellSize) {
+    public CollisionGrid(World world, PhysicsSpace physicsSpace, CellSize cellSize) {
 
-        this.app = app;
+        this.world = world;
         this.physicsSpace = physicsSpace;
         this.consumer = createConsumer();
 
@@ -59,6 +61,10 @@ public abstract class CollisionGrid extends BaseAppState {
         pooledRigidBodies.clear();
     }
 
+    public World getWorld() {
+        return world;
+    }
+
     public void refresh() {
         setCellSize(getCellSize());
     }
@@ -70,7 +76,7 @@ public abstract class CollisionGrid extends BaseAppState {
         return (gridSection, throwable) -> {
 
             if (throwable == null) {
-                app.enqueue(() -> {
+                world.getApplication().enqueue(() -> {
                     addRigidBody(gridSection.getGridPos(), gridSection.getResult());
                 });
             }
@@ -108,7 +114,7 @@ public abstract class CollisionGrid extends BaseAppState {
 
     }
 
-    void addRequiredPositions(Collection<GridPos2i> requiredPositions) {
+    public void addRequiredPositions(Collection<GridPos2i> requiredPositions) {
         this.requiredPositions.addAll(requiredPositions);
     }
 
