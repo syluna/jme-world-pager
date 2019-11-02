@@ -22,6 +22,9 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleInitApp() {
 
+        // move the camera above the ground
+        cam.setLocation(new Vector3f(0, 15, 0));
+
         // set the sky to a nice blue
         viewPort.setBackgroundColor(new ColorRGBA(0.5f, 0.6f, 0.7f, 1.0f));
 
