@@ -19,13 +19,14 @@ import java.util.concurrent.Executors;
 
 public abstract class AbstractWorldState extends BaseAppState implements World {
 
-    private final String name;
-    private final int seed;
+    // private final String name;
+    // private final int seed;
+    private final WorldSettings worldSettings;
 
     private final ExecutorService threadPoolExecutor;
 
-    //private final LayeredNoise layeredNoise;
-    private NoiseEvaluator noiseEvaluator;
+    // We use a global world noise so we can extract heights whenever we need them in the various "layers" or the world.
+    private NoiseEvaluator worldNoise;
 
     private List<SceneGrid> sceneGrids = new ArrayList<>();
     private List<CollisionGrid> collisionGrids = new ArrayList<>();
@@ -35,33 +36,28 @@ public abstract class AbstractWorldState extends BaseAppState implements World {
 
     private final Map<String, Material> registeredMaterials = new HashMap<>();
 
-    public AbstractWorldState(String worldName, int seed, int nThreads) {
-        this.name = worldName;
-        this.seed = seed;
-        this.worldNode = new Node("World: " + worldName);
+    // public AbstractWorldState(String worldName, int seed, int nThreads) {
+    public AbstractWorldState(WorldSettings worldSettings) {
 
-        this.threadPoolExecutor = Executors.newFixedThreadPool(nThreads);
-        //this.layeredNoise = new LayeredNoise();
+        this.worldSettings = worldSettings;
+
+        this.worldNode = new Node("World: " + worldSettings.getWorldName());
+        this.threadPoolExecutor = Executors.newFixedThreadPool(worldSettings.getNumThreads());
     }
 
     @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public int getSeed() {
-        return seed;
+    public WorldSettings getWorldSettings() {
+        return worldSettings;
     }
 
     @Override
     public NoiseEvaluator getWorldNoise() {
-        return noiseEvaluator;
+        return worldNoise;
     }
 
     @Override
     public void setWorldNoise(NoiseEvaluator noiseEvaluator) {
-        this.noiseEvaluator = noiseEvaluator;
+        this.worldNoise = noiseEvaluator;
     }
 
     @Override
@@ -79,6 +75,7 @@ public abstract class AbstractWorldState extends BaseAppState implements World {
         this.follower.set(follower);
     }
 
+    /*
     @Override
     public void registerMaterial(String key, Material val) {
         registeredMaterials.put(key, val);
@@ -88,6 +85,7 @@ public abstract class AbstractWorldState extends BaseAppState implements World {
     public Material getRegisteredMaterial(String key) {
         return registeredMaterials.get(key);
     }
+     */
 
     @Override
     public List<SceneGrid> getSceneGrids() {

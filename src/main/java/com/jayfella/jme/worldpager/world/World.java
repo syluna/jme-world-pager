@@ -13,16 +13,11 @@ import java.util.concurrent.ExecutorService;
 
 public interface World {
 
-    String getName();
-    int getSeed();
+    WorldSettings getWorldSettings();
 
-    // LayeredNoise getNoiseGenerator();
     NoiseEvaluator getWorldNoise();
     void setWorldNoise(NoiseEvaluator noiseEvaluator);
     ExecutorService getThreadPool();
-
-    Material getRegisteredMaterial(String key);
-    void registerMaterial(String key, Material material);
 
     List<SceneGrid> getSceneGrids();
     SceneGrid getSceneGrid(String name);
