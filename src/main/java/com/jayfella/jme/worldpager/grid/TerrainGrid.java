@@ -3,6 +3,7 @@ package com.jayfella.jme.worldpager.grid;
 import com.jayfella.jme.worldpager.core.GridPos2i;
 import com.jayfella.jme.worldpager.core.GridSettings;
 import com.jayfella.jme.worldpager.core.HeightMapMesh;
+import com.jayfella.jme.worldpager.core.NoiseEvaluator;
 import com.jayfella.jme.worldpager.world.World;
 import com.jme3.app.Application;
 import com.jme3.material.Material;
@@ -19,8 +20,16 @@ public class TerrainGrid extends SceneGrid {
 
         setName("Terrain");
         this.gridNode = new Node("SceneGrid: " + getName());
-        material = world.getRegisteredMaterial("terrain");
+        // material = world.getRegisteredMaterial("terrain");
 
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 
     @Override
@@ -51,6 +60,15 @@ public class TerrainGrid extends SceneGrid {
     @Override
     protected void cleanup(Application app) {
 
+    }
+
+    public static int getLodLevelFromDistance(int distance) {
+        switch (distance) {
+            case 0:
+            case 1: return 0;
+            case 2: return 1;
+            default: return  2;
+        }
     }
 
 }
