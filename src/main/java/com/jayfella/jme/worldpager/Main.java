@@ -1,6 +1,7 @@
 package com.jayfella.jme.worldpager;
 
 import com.jayfella.jme.worldpager.world.AbstractWorldState;
+import com.jayfella.jme.worldpager.world.WorldSettings;
 import com.jme3.app.SimpleApplication;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -34,15 +35,17 @@ public class Main extends SimpleApplication {
         rootNode.addLight(new AmbientLight(ColorRGBA.White.mult(0.2f)));
 
         // create our world.
-        String worldName = "TestWorld";
-        int seed = 123;
-        int nThreads = 3;
 
-        world = new BasicWorldState(worldName, seed, nThreads);
+        WorldSettings worldSettings = new WorldSettings();
+        worldSettings.setWorldName("Test World");
+        worldSettings.setSeed(123);
+        worldSettings.setNumThreads(3);
+
+        world = new DemoWorldState(worldSettings);
         stateManager.attach(world);
 
 
-        // an an ocean.
+        // add an ocean.
         FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
         WaterFilter waterFilter = new WaterFilter(rootNode, directionalLight.getDirection());
         waterFilter.setWaterHeight(8);
