@@ -142,7 +142,7 @@ public class DemoWorldState extends AbstractWorldState {
 
         // We will need a noise texture soon, might as well set it
         // now
-        texture = assetManager.loadTexture("Textures/noise-x3-512.png");
+        texture = assetManager.loadTexture("Textures/Noise/noise-x3-512.png");
         texture.setWrap(Texture.WrapMode.Repeat);
         terrainMaterial.setTexture("Noise", texture);
 
