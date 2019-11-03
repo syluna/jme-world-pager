@@ -23,6 +23,8 @@ uniform sampler2D m_NormalMapY;
 uniform sampler2D m_DiffuseMapZ;
 uniform sampler2D m_NormalMapZ;
 
+// jayfella
+uniform float m_NoiseScale;
 
 varying vec3 texCoord;
 #ifdef SEPARATE_TEXCOORD
@@ -180,69 +182,7 @@ vec4 getColor( in sampler2D diffuseMap, in sampler2D diffuseMapLow, in sampler2D
 
 void main(){
     vec2 newTexCoord;
-
-    /****
-      This is taken care of by the trilinear mapping now
-    #if (defined(PARALLAXMAP) || (defined(NORMALMAP_PARALLAX) && defined(NORMALMAP))) && !defined(VERTEX_LIGHTING)
-
-       #ifdef STEEP_PARALLAX
-           #ifdef NORMALMAP_PARALLAX
-               //parallax map is stored in the alpha channel of the normal map
-               newTexCoord = steepParallaxOffset(m_NormalMap, vViewDir, texCoord.xz, m_ParallaxHeight);
-           #else
-               //parallax map is a texture
-               newTexCoord = steepParallaxOffset(m_ParallaxMap, vViewDir, texCoord.xz, m_ParallaxHeight);
-           #endif
-       #else
-           #ifdef NORMALMAP_PARALLAX
-               //parallax map is stored in the alpha channel of the normal map
-               newTexCoord = classicParallaxOffset(m_NormalMap, vViewDir, texCoord.xz, m_ParallaxHeight);
-           #else
-               //parallax map is a texture
-               newTexCoord = classicParallaxOffset(m_ParallaxMap, vViewDir, texCoord.xz, m_ParallaxHeight);
-           #endif
-       #endif
-    #else
-       newTexCoord = texCoord.xz;
-    #endif
-
-   #ifdef DIFFUSEMAP
-      vec4 diffuseColor = texture2D(m_DiffuseMap, newTexCoord);
-    #else
-      vec4 diffuseColor = vec4(1.0);
-    #endif
-
-    float alpha = DiffuseSum.a * diffuseColor.a;
-    #ifdef ALPHAMAP
-       alpha = alpha * texture2D(m_AlphaMap, newTexCoord).r;
-    #endif
-    if(alpha < m_AlphaDiscardThreshold){
-        discard;
-    }
-    */
-
-    //diffuseColor.xyz = normalize(worldNormal);
     float alpha = 1.0;
-
-    /*****
-     This is taken care of by the trilinear mapping now
-    // ***********************
-    // Read from textures
-    // ***********************
-    #if defined(NORMALMAP) && !defined(VERTEX_LIGHTING)
-      vec4 normalHeight = texture2D(m_NormalMap, newTexCoord);
-      vec3 normal = normalize((normalHeight.xyz * vec3(2.0) - vec3(1.0)));
-      #ifdef LATC
-        normal.z = sqrt(1.0 - (normal.x * normal.x) - (normal.y * normal.y));
-      #endif
-      //normal.y = -normal.y;
-    #elif !defined(VERTEX_LIGHTING)
-      vec3 normal = vNormal;
-      #if !defined(LOW_QUALITY) && !defined(V_TANGENT)
-         normal = normalize(normal);
-      #endif
-    #endif
-    */
 
 
     // *************************************
@@ -265,7 +205,7 @@ void main(){
 
     // Turn the normal into the blending ratios.
     float up = worldNormal.y;
-    float offset = texture2D(m_Noise, texCoord.xz).x;
+    float offset = texture2D(m_Noise, texCoord.xz * m_NoiseScale).x;
 
     // We bias the threshold a bit based on a noise value.
     float threshold = up + (offset * 0.1 - 0.05);

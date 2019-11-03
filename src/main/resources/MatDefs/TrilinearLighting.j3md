@@ -161,6 +161,9 @@ MaterialDef Phong Lighting {
         Float InvAverageDensityHeight;
         Vector3 KWavelengths4PI;
 
+        // jayfella
+        Float NoiseScale : 1.0
+
     }
 
     Technique {
