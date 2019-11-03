@@ -22,6 +22,8 @@ import java.util.Random;
  */
 public class DemoWorldState extends AbstractWorldState {
 
+    private LayeredNoise layeredNoise;
+
     public DemoWorldState(WorldSettings worldSettings) {
         super(worldSettings);
 
@@ -33,7 +35,7 @@ public class DemoWorldState extends AbstractWorldState {
         // Create layers of noise decreasing in size.
         // We start with huge continents and work our way down to small details.
 
-        LayeredNoise layeredNoise = new LayeredNoise();
+        layeredNoise = new LayeredNoise();
 
         layeredNoise.setHardFloor(true);
         layeredNoise.setHardFloorHeight(20);
@@ -82,6 +84,10 @@ public class DemoWorldState extends AbstractWorldState {
         };
 
         setWorldNoise(noiseEvaluator);
+    }
+
+    public LayeredNoise getLayeredNoise() {
+        return layeredNoise;
     }
 
     @Override
