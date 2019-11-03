@@ -50,14 +50,16 @@ public class DemoWorldState extends AbstractWorldState {
         continents.setFractalOctaves(1);
         layeredNoise.addLayer(continents);
 
-        NoiseLayer mountains = new NoiseLayer("Mountains", random.nextInt());
+        NoiseLayer mountains = new NoiseLayer("Mountains");
+        mountains.setSeed(random.nextInt());
         mountains.setNoiseType(FastNoise.NoiseType.PerlinFractal);
         mountains.setStrength(512);
         mountains.setScale(0.25f, 0.25f);
         layeredNoise.addLayer(mountains);
         layeredNoise.addLayerMask(new LayerMask(mountains, continents));
 
-        NoiseLayer hills = new NoiseLayer("Hills", random.nextInt());
+        NoiseLayer hills = new NoiseLayer("Hills");
+        hills.setSeed(random.nextInt());
         hills.setNoiseType(FastNoise.NoiseType.PerlinFractal);
         hills.setStrength(96);
         hills.setScale(0.07f, 0.07f);
@@ -68,7 +70,8 @@ public class DemoWorldState extends AbstractWorldState {
         layeredNoise.addLayer(hills);
         layeredNoise.addLayerMask(new LayerMask(hills, continents));
 
-        NoiseLayer details = new NoiseLayer("Details", random.nextInt());
+        NoiseLayer details = new NoiseLayer("Details");
+        details.setSeed(random.nextInt());
         details.setNoiseType(FastNoise.NoiseType.PerlinFractal);
         details.setStrength(15);
         details.setScale(1f, 1f);
