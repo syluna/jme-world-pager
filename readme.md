@@ -42,13 +42,13 @@ public class Main extends SimpleApplication {
         rootNode.addLight(new AmbientLight(ColorRGBA.White.mult(0.2f)));
 
         // create our world.
-        String worldName = "TestWorld";
-        int seed = 123;
-        int nThreads = 3;
+        WorldSettings worldSettings = new WorldSettings();
+		worldSettings.setWorldName("Test World");
+		worldSettings.setSeed(123);
+		worldSettings.setNumThreads(3);
 
-        world = new BasicWorldState(worldName, seed, nThreads);
+		world = new DemoWorldState(worldSettings);
         stateManager.attach(world);
-
 
         // an an ocean.
         FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
