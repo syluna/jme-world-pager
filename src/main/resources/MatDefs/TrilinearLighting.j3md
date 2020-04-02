@@ -186,7 +186,7 @@ MaterialDef Phong Lighting {
             LATC : LATC
             VERTEX_COLOR : UseVertexColor
             VERTEX_LIGHTING : VertexLighting
-            ATTENUATION : Attenuation
+            //ATTENUATION : Attenuation
             MATERIAL_COLORS : UseMaterialColors
             V_TANGENT : VTangent
             MINNAERT  : Minnaert
@@ -207,7 +207,7 @@ MaterialDef Phong Lighting {
             SEPARATE_TEXCOORD : SeparateTexCoord
 
             USE_REFLECTION : EnvMap
-            SPHERE_MAP : SphereMap
+            //SPHERE_MAP : SphereMap
 
             NUM_BONES : NumberOfBones
 
@@ -226,7 +226,7 @@ MaterialDef Phong Lighting {
         }
 
         Defines {
-            COLOR_MAP : ColorMap
+            //COLOR_MAP : ColorMap
             DISCARD_ALPHA : AlphaDiscardThreshold
             NUM_BONES : NumberOfBones
         }
@@ -256,7 +256,7 @@ MaterialDef Phong Lighting {
             FILTER_MODE : FilterMode
             PCFEDGE : PCFEdge
             DISCARD_ALPHA : AlphaDiscardThreshold
-            COLOR_MAP : ColorMap
+            //COLOR_MAP : ColorMap
             SHADOWMAP_SIZE : ShadowMapSize
             FADE : FadeInfo
             PSSM : Splits
@@ -285,7 +285,7 @@ MaterialDef Phong Lighting {
             FILTER_MODE : FilterMode
             PCFEDGE : PCFEdge
             DISCARD_ALPHA : AlphaDiscardThreshold
-            COLOR_MAP : ColorMap
+            //COLOR_MAP : ColorMap
             SHADOWMAP_SIZE : ShadowMapSize
             FADE : FadeInfo
             PSSM : Splits
