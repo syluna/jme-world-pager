@@ -4,15 +4,17 @@ import com.jayfella.fastnoise.*;
 import com.jayfella.jme.worldpager.core.CellSize;
 import com.jayfella.jme.worldpager.core.GridSettings;
 import com.jayfella.jme.worldpager.core.NoiseEvaluator;
-import com.jayfella.jme.worldpager.grid.SceneGrid;
+import com.jayfella.jme.worldpager.grid.GridCollider;
 import com.jayfella.jme.worldpager.grid.TerrainGrid;
+import com.jayfella.jme.worldpager.grid.collision.TerrainCollisionGrid;
 import com.jayfella.jme.worldpager.world.AbstractWorldState;
 import com.jayfella.jme.worldpager.world.WorldSettings;
 import com.jme3.app.Application;
 import com.jme3.asset.AssetManager;
+import com.jme3.bullet.BulletAppState;
 import com.jme3.material.Material;
-import com.jme3.material.Materials;
 import com.jme3.math.Vector2f;
+import com.jme3.math.Vector3f;
 import com.jme3.texture.Texture;
 
 import java.util.Random;
@@ -23,7 +25,10 @@ import java.util.Random;
 public class DemoWorldState extends AbstractWorldState {
 
     private LayeredNoise layeredNoise;
-
+    
+    private BulletAppState bulletAppState;
+    private GridCollider gridCollider;
+    
     public DemoWorldState(WorldSettings worldSettings) {
         super(worldSettings);
 
@@ -95,11 +100,32 @@ public class DemoWorldState extends AbstractWorldState {
 
     @Override
     public void initializeWorld(Application app) {
-
+        bulletAppState = new BulletAppState();
+        //bulletAppState.setDebugEnabled(true);
+        app.getStateManager().attach(bulletAppState);
+        
         TerrainGrid terrainGrid = createTerrainGrid();
         terrainGrid.setMaterial(createTerrainMaterial(app.getAssetManager()));
         addSceneGrid(terrainGrid);
+        
+        TerrainCollisionGrid terrainCollisionGrid = new TerrainCollisionGrid(this, 
+                bulletAppState.getPhysicsSpace(), terrainGrid.getGridSettings().getCellSize());
+        addCollisionGrid(terrainCollisionGrid);
+        
+        gridCollider = new GridCollider(terrainGrid.getGridSettings(), terrainCollisionGrid);
+    }
+    
+    @Override
+    public void setFollower(Vector3f follower) {
+        super.setFollower(follower);
+        gridCollider.setLocation(follower);
+    }
 
+    @Override
+    public void update(float tpf) {
+        super.update(tpf);
+        
+        gridCollider.update();
     }
 
     private Material createTerrainMaterial(AssetManager assetManager) {
